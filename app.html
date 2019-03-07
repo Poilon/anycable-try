@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      My WebSocket App
+    </title>
+  </head>
+  <body>
+    <main id="main"></main>
+    <br>
+    <div id="mess"> </div>
+    <form>
+      <input id="message" type="text">
+      <br>
+      <br>
+      <button type="button" id="button">My Cool Button</button>
+    </form>
+  </body>
+
+
+
+</html>
+
+<script type="application/javascript" defer="defer">
+  (() => {
+
+    function submitThroughWebsocket(message) {
+      const msg = {
+        command: "message",
+        identifier: JSON.stringify({
+          channel: "channel"
+        }),
+        data: JSON.stringify({
+          action: "speak",
+          message: message
+        })
+      };
+      if (!window.ws || window.ws.readyState !== 1) {
+        if (window.wsMsgQueue === undefined) window.wsMsgQueue = [];
+        window.wsMsgQueue.push(msg);
+      } else {
+        window.ws.send(JSON.stringify(msg));
+      }
+    }
+
+    function connectToWebsocket() {
+      const self = this;
+
+      if (window.wsMsgQueue === undefined) window.wsMsgQueue = [];
+
+      if (window.ws) window.ws.close(4000, "Close on client side");
+
+      window.ws = new WebSocket("ws://0.0.0.0:5200/cable");
+
+      window.ws.onopen = () => {
+        const msg = {
+          command: "subscribe",
+          identifier: JSON.stringify({
+            channel: "channel"
+          })
+        };
+
+        window.ws.send(JSON.stringify(msg));
+        setTimeout(() => {
+          while (window.wsMsgQueue.length > 0) {
+            window.ws.send(window.wsMsgQueue.pop());
+          }
+        }, 1000);
+      };
+
+      window.ws.onmessage = function(response) {
+        const data = JSON.parse(response["data"]);
+        if (data.type === "ping") return;
+        console.log(data)
+        if (data.identifier == '{"channel":"channel"}')
+          if (data.message != undefined) {
+            console.log(data.message.message)
+            const messageNode = document.createTextNode(data.message.message);
+            document.getElementById('mess').append(messageNode)
+          }
+      };
+    }
+
+
+    connectToWebsocket()
+
+    document.getElementById("button").addEventListener(
+      "click", (event) => {
+        submitThroughWebsocket(document.getElementById('message').value)
+      }
+    )
+  })();
+</script>
