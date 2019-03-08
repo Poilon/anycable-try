@@ -1,5 +1,9 @@
 require_relative './query_type'
 require_relative './mutation_type'
+require_relative './meetings/type'
+require_relative './meetings/service'
+require_relative './meetings/mutations/input_type'
+require_relative './meetings/mutations/create'
 
 type_error_logger = Logger.new('./log/graphql_type_errors.log')
 

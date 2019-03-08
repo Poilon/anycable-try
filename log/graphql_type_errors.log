@@ -1,1 +1,4 @@
 # Logfile created on 2019-03-08 11:27:44 +0100 by logger.rb/66358
+E, [2019-03-08T14:26:45.674742 #59552] ERROR -- : Cannot return null for non-nullable field Query.meetings for {meetings {id}}     with {}
+E, [2019-03-08T14:34:42.327519 #61133] ERROR -- : Cannot return null for non-nullable field Query.meetings for {meetings {id}}     with {}
+E, [2019-03-08T14:36:41.800962 #61405] ERROR -- : Cannot return null for non-nullable field Query.meetings for {meetings {id}}     with {}

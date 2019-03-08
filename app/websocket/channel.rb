@@ -16,7 +16,7 @@ module Websocket
 
     def execute(data)
       result = NoMeetingsApiSchema.execute(
-        data['query'], context: { current_user: user }, variables: data['variables']
+        data['query'], context: { current_user: user }
       )
       LiteCable.broadcast('poilon', result: result)
     end

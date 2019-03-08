@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-# frozen_string_literal: true
 
 require 'rubygems'
 require 'bundler'
@@ -10,9 +9,4 @@ Dir['*/**/**.rb'].each { |file| require_relative file }
 
 Ohm.redis = Redic.new('redis://127.0.0.1:6379')
 
-# Turn AnyCable compatibility mode
-LiteCable.anycable!
-
-Anycable.connection_factory = Websocket::Connection
-
-Anycable::Server.start
+binding.pry

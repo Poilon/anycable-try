@@ -1,7 +1,7 @@
 class ApplicationService
 
   def initialize(params: {}, object: nil, object_id: nil, user: nil, context: nil)
-    @params = params.to_h.symbolize_keys
+    @params = symbolize_keys(params.to_h)
     @context = context
     @object = object || (object_id && model.visible_for(user: user).find_by(id: object_id))
     @object_id = object_id
@@ -11,9 +11,7 @@ class ApplicationService
   def self.call(resource, meth)
     lambda { |_obj, args, context|
       params = args && args[resource] ? args[resource] : args
-      service = "#{resource.to_s.pluralize.camelize.constantize}::Service"
-      service = 'ApplicationService' unless defined?(service)
-      service.constantize.new(
+      "#{resource.to_s.pluralize.camelize.constantize}::Service".constantize.new(
         params: params, user: context[:current_user],
         object_id: args[:id], context: context
       ).send(meth)
@@ -21,11 +19,26 @@ class ApplicationService
   end
 
   def index
-    puts 'YEAHHHHHHH'
+    Meetings::Model.all.to_a
   end
 
   def create
-    puts 'YEAHHHHHHH'
+    Meetings::Model.create(params)
+  end
+
+  private
+
+  def symbolize_keys(obj)
+    obj.each_with_object({}) do |(key, _), res|
+      nkey = case key
+             when String
+               key.to_sym
+             else
+               key
+             end
+      res[nkey] = nval
+      res
+    end
   end
 
 end

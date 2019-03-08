@@ -25,7 +25,7 @@
 <script type="application/javascript" defer="defer">
   (() => {
 
-    function submitThroughWebsocket(message) {
+    function submitThroughWebsocket(query) {
       const msg = {
         command: "message",
         identifier: JSON.stringify({
@@ -33,7 +33,7 @@
         }),
         data: JSON.stringify({
           action: "execute",
-          message: message
+          query: query
         })
       };
       if (!window.ws || window.ws.readyState !== 1) {
@@ -51,7 +51,7 @@
 
       if (window.ws) window.ws.close(4000, "Close on client side");
 
-      window.ws = new WebSocket("ws://0.0.0.0:9292/cable");
+      window.ws = new WebSocket("ws://0.0.0.0:5200/cable");
 
       window.ws.onopen = () => {
         const msg = {
@@ -75,7 +75,7 @@
         console.log(data)
         if (data.identifier == '{"channel":"channel"}')
           if (data.message != undefined) {
-            console.log(data.message.message)
+            console.log(data.message)
             const messageNode = document.createTextNode(data.message.message);
             document.getElementById('mess').append(messageNode)
           }
