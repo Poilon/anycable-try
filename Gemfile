@@ -5,6 +5,8 @@ ruby '2.6.1'
 gem 'puma'
 gem 'rack'
 
+gem 'activesupport'
+
 gem 'pry-byebug'
 
 # litecable deps
@@ -16,3 +18,6 @@ gem 'anycable', '~> 0.5.0'
 gem 'litecable'
 
 gem 'redis'
+
+gem 'graphql'
+gem 'ohm'

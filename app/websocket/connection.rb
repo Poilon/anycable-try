@@ -1,4 +1,4 @@
-module App
+module Websocket
   class Connection < LiteCable::Connection::Base
 
     identified_by :user

@@ -1,4 +1,4 @@
-module App
+module Websocket
   class Channel < LiteCable::Channel::Base
 
     identifier :channel
@@ -12,6 +12,13 @@ module App
     def speak(data)
       puts data['message']
       LiteCable.broadcast('poilon', user: user, message: data['message'])
+    end
+
+    def execute(data)
+      result = NoMeetingsApiSchema.execute(
+        data['query'], context: { current_user: user }, variables: data['variables']
+      )
+      LiteCable.broadcast('poilon', result: result)
     end
 
   end

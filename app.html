@@ -32,7 +32,7 @@
           channel: "channel"
         }),
         data: JSON.stringify({
-          action: "speak",
+          action: "execute",
           message: message
         })
       };
@@ -51,7 +51,7 @@
 
       if (window.ws) window.ws.close(4000, "Close on client side");
 
-      window.ws = new WebSocket("ws://0.0.0.0:5200/cable");
+      window.ws = new WebSocket("ws://0.0.0.0:9292/cable");
 
       window.ws.onopen = () => {
         const msg = {
