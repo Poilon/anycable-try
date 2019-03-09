@@ -51,7 +51,7 @@
 
       if (window.ws) window.ws.close(4000, "Close on client side");
 
-      window.ws = new WebSocket("ws://0.0.0.0:5200/cable");
+      window.ws = new WebSocket("ws://0.0.0.0:9292/cable");
 
       window.ws.onopen = () => {
         const msg = {
@@ -76,7 +76,7 @@
         if (data.identifier == '{"channel":"channel"}')
           if (data.message != undefined) {
             console.log(data.message)
-            const messageNode = document.createTextNode(data.message.message);
+            const messageNode = document.createTextNode(data.message.result.data.meetings[0].title);
             document.getElementById('mess').append(messageNode)
           }
       };

@@ -1,14 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
-require 'rubygems'
-require 'bundler'
-Bundler.require(:default)
-require 'active_support/inflector'
-
-Dir['*/**/**.rb'].each { |file| require_relative file }
-
-Ohm.redis = Redic.new('redis://127.0.0.1:6379')
+require_relative './boot.rb'
 
 # Turn AnyCable compatibility mode
 LiteCable.anycable!

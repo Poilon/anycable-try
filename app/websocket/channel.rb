@@ -9,11 +9,6 @@ module Websocket
       stream_from 'poilon'
     end
 
-    def speak(data)
-      puts data['message']
-      LiteCable.broadcast('poilon', user: user, message: data['message'])
-    end
-
     def execute(data)
       result = NoMeetingsApiSchema.execute(
         data['query'], context: { current_user: user }
