@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-require_relative './boot.rb'
+
+require_relative './boot'
 
 # Turn AnyCable compatibility mode
 LiteCable.anycable!
